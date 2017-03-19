@@ -1,0 +1,47 @@
+<style>
+  .thumbnail{
+    margin: 0 auto;
+  }
+</style>
+
+<div class="container ">
+  <div class="row fixed">
+    <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+    <div class="row">
+
+      <a href="<%= @company_profile.logo.url %>" target="_blank"><%= image_tag @company_profile.logo.thumb.url, :class => "aa thumbnail" %></a>
+    </div>
+
+    <br>
+    <div class="row f1">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <table class="table table-responsive table-hover">
+          <tbody>
+          <tr>
+            <td><strong>Name : </strong><%= @company_profile.name %></td></tr>
+          <tr><tr> <td><strong>Address :</strong><%= @company_profile.address %></td></tr>
+         <tr> <td><strong>Vdc/Municipality: </strong><%= @company_profile.vdc_mun %></td></tr>
+          <tr> <td><strong>Ward No. : </strong><%= @company_profile.ward_no %></td></tr>
+          <tr><td><strong>Phone No : </strong><%= @company_profile.phone_number %></td></tr>
+          <tr><td><strong>Vat/Pan no : </strong><%= @company_profile.vat_pan_no %></td></tr>
+          <tr><td><strong>logo : </strong><%= @company_profile.logo %></td></tr>
+          <tr><td><strong>District : </strong><%= @company_profile.district %></td></tr>
+          <tr><td><strong>Zone : </strong><%= @company_profile.zone %></td></tr>
+
+          </tbody>
+        </table></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <a title="Edit details" href="<%= edit_company_profile_path(@company_profile) %>" class="btn btn-primary">Edit Details</a></div>
+      <div class="col-md-2">
+        <a title="View All" href="<%= company_profiles_path %>" class="btn btn-primary">View All</a><br><br>
+      </div>
+    </div>
+  </div>
+</div>

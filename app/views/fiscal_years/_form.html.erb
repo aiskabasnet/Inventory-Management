@@ -1,0 +1,43 @@
+
+<%= form_for @fiscal_year, :html => {:class=>"form-horizontal"} do |f| %>
+    <div class="form-group">
+      <div class="col-md-3">
+        <label class="control-label">Name *</label></div>
+      <div class="col-md-9">
+        <%= f.text_field :name, :class=>"form-control",:placeholder=>"Fiscal Year Name" %></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3">
+        <label class="control-label">Start Date *</label></div>
+      <div class="col-md-9">
+        <div class="input-group">
+
+          <%= f.text_field :start_date, :class=>"form-control a1 datepicker" %>
+          <span class="input-group-addon d1"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+        </div></div>
+      </div>
+    <div class="form-group">
+      <div class="col-md-3">
+        <label class="control-label">End Date *</label></div>
+      <div class="col-md-9">
+        <div class="input-group">
+
+          <%= f.text_field :end_date, :class=>"form-control a1 datepicker", "data-provide" => 'datepicker' %>
+          <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+        </div></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-3">
+        <button class="btn btn-primary btn-block btn-lg" type="submit">Submit
+        </button></div>
+    </div>
+<% end %>
+<script src="datepicker.css"></script>
+<script src="bootstrap-datepicker.js"></script>
+<script>
+  $('.datepicker').datepicker({
+    format: "yyyy/mm/dd",
+  }).on('changeDate', function(e){
+    $(this).datepicker('hide');
+  });
+</script>

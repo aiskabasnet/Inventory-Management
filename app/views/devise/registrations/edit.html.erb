@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+
+      <div class="page-header">
+        <label class="l1">Edit <%= resource_name.to_s.humanize %></label>
+      </div>
+      <div class="">
+
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put, :class => "form-horizontal"}) do |f| %>
+            <%= devise_error_messages! %>
+
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">First Name</label></div>
+              <div class="col-sm-9">
+                <%= f.text_field :first_name, autofocus: true, :class => "form-control", :placeholder => "First Name" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">Middle Name</label></div>
+              <div class="col-sm-9">
+                <%= f.text_field :middle_name, autofocus: true, :class => "form-control", :placeholder => "Middle Name" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">Last Name</label></div>
+              <div class="col-sm-9">
+                <%= f.text_field :last_name, autofocus: true, :class => "form-control", :placeholder => "Last Name" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">Username</label></div>
+              <div class="col-sm-9">
+                <%= f.text_field :username, autofocus: true, :class => "form-control", :placeholder => "Username" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">Email</label></div>
+              <div class="col-sm-9">
+                <%= f.email_field :email, :class => "form-control", :placeholder => "Email" %>
+              </div>
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+              <% end %>
+
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">Password</label></div>
+              <div class="col-sm-9">
+                <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Password" %>
+              </div>
+              <br>
+              <div class="col-sm-offset-3">
+                <i>(leave blank if you don't want to change it)</i>
+                <% if @minimum_password_length %>
+                    <label class="control-label label1">
+
+                      <em>(<%= @minimum_password_length %> characters
+                      minimum)</em></label>
+                <% end %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label>Password Confirmation <i>(we need your current password to confirm your changes)</i></label>
+              </div>
+              <div class="col-sm-9">
+                <%= f.password_field :password_confirmation, autocomplete: "off", :class => "form-control", :placeholder => "Password Confirmation" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="control-label">First Name</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <%= f.text_field :first_name, autofocus: true, :class => "form-control", :placeholder => "First Name" %>
+              </div>
+            </div>
+
+            <div class="actions">
+              <div class="row">
+                <div class="col-sm-3">
+                  <button class="btn btn-primary btn-block" type="submit">Update
+                  </button>
+                </div>
+              </div>
+            </div>
+            </div>
+        <% end %>
+
+    <div class="page-header">
+      <label class="l1">Cancel my account </label>
+    </div>
+    <div class="well well1">
+      <p><label>
+        Unhappy? </label><br><%= button_to "Delete my account", registration_path(resource_name), :class => "btn btn-danger", data: {confirm: "Are you sure?"}, method: :delete %>
+      </p>
+
+      <%= link_to "Back", :back %></div>
+        </div>
+  </div>
+</div>

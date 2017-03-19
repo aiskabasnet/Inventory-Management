@@ -1,0 +1,46 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+  <h3>List All Logs</h3></div></div><hr>
+  <div class="row">
+    <div class="col-sm-12">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Logs</li>
+    </ol></div>
+  </div>
+
+  <div class="row">
+
+  </div><br>
+  <div class="row">
+    <div class="col-sm-12">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Description</th>
+        <th>Username</th>
+        <th>Time</th>
+      </tr></thead>
+      <% @log.each_with_index  do |setting,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= setting.description %></td>
+            <td><%= setting.user.username %></td>
+            <td><%= setting.created_at %></td>
+
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @log, renderer: BootstrapPagination::Rails %>
+  </div></div>
+</div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>

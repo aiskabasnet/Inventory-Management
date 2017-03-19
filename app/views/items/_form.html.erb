@@ -1,0 +1,65 @@
+ <%= form_for @item, :html => {:class=>"form-horizontal"} do |f| %>
+          <div class="form-group">
+            <div class="col-md-3">
+              <label class="control-label">Item Code <label class="compulsary">*</label></label></div>
+            <div class="col-md-9">
+              <%= f.text_field :item_code, :class=>"form-control",:placeholder=>"Items Code" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-3">
+              <label class="control-label"> Name  <label class="compulsary">*</label></label></div>
+            <div class="col-md-9">
+              <%= f.text_field :name, :class=>"form-control",:placeholder=>"Item Name" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-3">
+              <label class="control-label">Unit  <label class="compulsary">*</label></label></div>
+            <div class="col-md-9">
+              <%= f.collection_select :unit_id, Unit.all,:id,:name, {prompt:" Select Unit"}, {class: "form-control"} %>
+          </div></div>
+
+          <div class="form-group">
+            <div class="col-md-3">
+              <label class="control-label">Item Group <label class="compulsary">*</label></label></div>
+            <div class="col-md-9">
+              <%= f.collection_select :item_group_id, ItemGroup.all,:id,:name, {prompt:" Select category"}, {class: "form-control"} %>
+          </div></div>
+          <div class="form-group">
+            <div class="col-md-3">
+              <label class="control-label">Description</label></div>
+            <div class="col-md-9">
+              <%= f.text_area :description, :class => "form-control",:placeholder =>"Description" %></div>
+          </div>
+
+     <%= f.fields_for :stock do |s| %>
+         <div class="form-group">
+           <div class="col-md-3">
+             <label class="control-label">Quantity <label class="compulsary">*</label></label>
+           </div>
+           <div class="col-md-9">
+             <%= s.text_field :quantity,:class=>"form-control", :placeholder => "Quantity" %>
+           </div>
+         </div>
+
+       <div class="form-group">
+         <div class="col-md-3">
+           <label for="" class="control-label">Unit Price <label class="compulsary">*</label></label>
+         </div>
+         <div class="col-md-9">
+           <%= s.text_field :unit_price, :class=>"form-control", :placeholder =>"Unit Price" %>
+         </div>
+       </div>
+         <div class="form-group">
+           <div class="col-md-3">
+
+         <label for="" class="control-label">Est. Sell Price <label class="compulsary">*</label></label></div>
+           <div class="col-md-9">
+         <%= s.text_field :est_sell_price, :class => "form-control", :placeholder => "Estimated Sell Price" %></div>
+           </div>
+     <% end %>
+          <div class="row">
+            <div class="col-sm-offset-3 col-sm-3">
+              <button class="btn btn-primary btn-block btn-lg" type="submit">Submit
+              </button></div>
+          </div>
+      <% end %><br><br>

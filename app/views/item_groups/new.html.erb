@@ -1,0 +1,36 @@
+
+<div class="container">
+  <div class="row">
+  <div class="col-md-offset-3 col-md-6">
+    <h3><i class="fa fa-plus fa-fw"></i>Add Item Group</h3><hr>
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li><a href="/item_groups">Item Groups</a></li>
+          <li>Add Item Group</li>
+        </ol></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <% if @item_group.errors.any? %>
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h5 class="panel-title">
+                  <%= pluralize(@item_group.errors.count,"error") %> occured</h5>
+              </div>
+              <div class="panel-body">
+                <ul>
+                  <% @item_group.errors.full_messages.each do |e| %>
+                      <li>
+                        <%= e %>
+                      </li>
+                  <% end %>
+                </ul></div></div>
+        <% end %>
+      </div>
+    </div>
+    <%= render "form" %>
+  </div>
+</div>
+</div>

@@ -1,0 +1,72 @@
+
+<div class="container">
+  <div class="row">
+    <a href="/company_profiles/8/edit" title="Click to change current fiscal year" data-toggle="tooltip">
+    <div class="col-sm-3 pull-right">
+      <% @company_profile.each_with_index do |c|  %>
+      <h4>Current Fiscal Year : <%= c.fiscal_year.name %></h4>
+      <% end %>
+    </div></a>
+  </div>
+  <h3>List All Items</h3><hr>
+  <div class="row">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Items</li>
+    </ol>
+  </div>
+  <%= form_tag items_path, :method => 'get' do %>
+      <p>
+        <%= text_field_tag :search, params[:search] %>
+        <%= submit_tag "Search", :name => nil %>
+      </p>
+  <% end %>
+  <div class="row">
+    <div class="col-sm-3">
+      <a href="/items/new" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add New
+      </a>
+    </div>
+  </div>
+<br>
+  <div class="row">
+    <div class="col-sm-12">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Item Group</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Est. Sell Price</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr></thead>
+      <% @item.each_with_index  do |item,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= item.name %></td>
+            <td><%= item.unit.name %></td>
+            <td><%= item.item_group.name %></td>
+            <td><%= item.stock.quantity %></td>
+            <td><%= item.stock.unit_price %></td>
+            <td><%= item.stock.est_sell_price %></td>
+            <td><%= item.description %></td>
+            <td><a title="View details" href="<%= item_path(item) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
+              <a title="Edit Details" href="<%= edit_item_path(item) %>" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-pencil-square-o"  aria-hidden="true"></i></a>
+              <a title="Delete" data-method="delete" href="<%= item_path(item) %>" data-confirm="Are you sure?" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-trash-o"  aria-hidden="true" ></i></a></td>
+
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @item, renderer: BootstrapPagination::Rails %>
+  </div></div>
+</div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>

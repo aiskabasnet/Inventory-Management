@@ -1,0 +1,46 @@
+
+<div class="container">
+  <h3>List All Item Groups</h3><hr>
+  <div class="row">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Item Groups</li>
+    </ol>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+    <a href="/item_groups/new" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add New
+    </a></div>
+  </div><br>
+  <div class="row">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Parent Id</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr></thead>
+      <% @item_group.each_with_index do |setting,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= setting.name %></td>
+            <td><%= setting.parent_id %></td>
+            <td><%= setting.description %></td>
+            <td><a title="View details" href="<%= item_group_path(setting) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
+              <a title="Edit Details" href="<%= edit_item_group_path(setting) %>" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-pencil-square-o"  aria-hidden="true"></i></a>
+              <a title="Delete" data-method="delete" href="<%= item_group_path(setting) %>" data-confirm="Are you sure?" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-trash-o"  aria-hidden="true"></i></a></td>
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @item_group, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>

@@ -1,0 +1,53 @@
+<div class="container">
+  <h3>List All Fiscal Years</h3><hr>
+  <div class="row">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Fiscal Years</li>
+    </ol>
+  </div>
+  <div class="row">
+    <a class="btn btn-primary btn1" href="fiscal_years/new"><i class="fa fa-plus-circle" aria-hidden="true"> Add New </i>
+    </a>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2">
+      <label>Current Fiscal Year : </label>
+    </div>
+    <div class="col-sm-2">
+      <label><%= @company_profile.fiscal_year.name %></label>
+    </div>
+  </div><br>
+
+  <div class="row">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Actions</th>
+      </tr></thead>
+      <% @fiscal_years.each_with_index do |fiscal_year,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= fiscal_year.name %></td>
+            <td><%= fiscal_year.start_date %></td>
+            <td><%= fiscal_year.end_date %></td>
+            <td><a title="View details" href="<%= fiscal_year_path(fiscal_year) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
+              <a title="Edit Details" href="<%= edit_fiscal_year_path(fiscal_year) %>" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-pencil-square-o"  aria-hidden="true"></i></a>
+              <a title="Delete" data-method="delete" href="<%= fiscal_year_path(fiscal_year) %>" data-confirm="Are you sure?" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-trash-o"  aria-hidden="true"></i></a></td>
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @fiscal_year, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>

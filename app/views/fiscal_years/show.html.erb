@@ -1,0 +1,38 @@
+<div class="container ">
+  <div class="row">
+    <div class="col-md-12">
+      <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %></div></div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <h3>Show Fiscal Year</h3><hr>
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/fiscal_years">Fiscal Years</a></li>
+        <li>Show</li>
+      </ol>
+    </div></div>
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <table class="table table-responsive table-hover">
+        <tbody>
+        <tr>
+          <td><strong>Name : </strong><%= @fiscal_year.name %></td></tr>
+        <tr> <td><strong>Start Date: </strong><%= @fiscal_year.start_date %></td></tr>
+        <tr> <td><strong>End Date: </strong><%= @fiscal_year.end_date %></td></tr>
+
+        </tbody>
+      </table></div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-offset-3 col-md-2">
+      <a title="Edit details" href="<%= edit_fiscal_year_path(@fiscal_year) %>" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i>Edit Details</a></div>
+    <div class="col-md-2">
+      <a title="View All" href="<%= fiscal_years_path %>" class="btn btn-primary"><i class="fa fa-eye fa-fw"></i>View All</a><br><br>
+    </div>
+  </div>
+</div>

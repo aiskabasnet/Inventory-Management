@@ -1,0 +1,91 @@
+<style>
+  .im1{
+    float:right;
+  }
+</style>
+      <%= form_for @company_profile, :html => {:class=>"form-horizontal"} do |f| %>
+
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Name</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :name, :class=>"form-control",:placeholder=>"Company Name" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Address</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :address, :class=>"form-control",:placeholder=>"Address" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Vdc/Municipality</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :vdc_mun, :class=>"form-control",:placeholder=>"Vdc or Municipality" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Ward No</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :ward_no, :class=>"form-control",:placeholder=>"Ward Number" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Phone Number</label></div>
+            <div class="col-md-8">
+              <%= f.phone_field :phone_number, :class=>"form-control",:placeholder=>"Phone Number" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Vat/Pan No</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :vat_pan_no, :class=>"form-control",:placeholder=>"Vat or Pan Number" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">District</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :district, :class=>"form-control",:placeholder=>"District Name" %></div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Zone</label></div>
+            <div class="col-md-8">
+              <%= f.text_field :zone, :class=>"form-control",:placeholder=>"Zone Name" %></div>
+          </div>
+    <div class="form-group">
+      <div class="col-md-4">
+        <label class="control-label">Current Fiscal Year</label></div>
+      <div class="col-md-8">
+        <%= f.collection_select :fiscal_year_id, FiscalYear.all,:id,:name, {prompt:" Select fiscal year"}, {class: "form-control"} %>
+    </div>
+      </div>
+
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="control-label">Logo</label></div>
+            <div class="col-md-8">
+              <%= f.file_field :logo %><br>
+              <% if f.object.logo? %>
+                  <%= image_tag f.object.logo.thumb.url %><br>
+                  <%= f.check_box :remove_logo %>
+                  <%= f.label :remove_logo  %>
+              <% end %>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-offset-4 col-sm-3">
+              <button class="btn btn-primary btn-block" type="submit">Update
+              </button></div>
+          </div>
+      <% end %><br><br>
+<script src="datepicker.css"></script>
+<script src="bootstrap-datepicker.js"></script>
+
+<script>
+  $('.datepicker').datepicker();
+  $('.d1').datepicker();
+</script>

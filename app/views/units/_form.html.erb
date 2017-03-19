@@ -1,0 +1,19 @@
+<%= form_for @unit, :html => {:class=>"form-horizontal"} do |f| %>
+    <div class="form-group">
+      <div class="col-md-3">
+        <label class="control-label">Name <label class="compulsary"> *</label></label></div>
+      <div class="col-md-9">
+        <%= f.text_field :name, :class=>"form-control",:placeholder=>"Unit Name" %></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3">
+        <label class="control-label">Print Name <label class="compulsary"> *</label></label></div>
+      <div class="col-md-9">
+        <%= f.text_field :print_name, :class=>"form-control",:placeholder=>"Print Name" %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-3">
+        <button class="btn btn-primary btn-block btn-lg" type="submit">Submit
+        </button></div>
+    </div>
+<% end %>

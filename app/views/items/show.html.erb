@@ -1,0 +1,40 @@
+<div class="container ">
+  <div class="row">
+    <div class="col-md-12">
+      <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %></div></div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <h3>Show Item</h3><hr>
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/items">Items</a></li>
+        <li>Show</li>
+      </ol>
+    </div></div>
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <table class="table table-responsive table-hover">
+        <tbody>
+        <tr> <td><strong>Item Code : </strong><%= @item.item_code %></td></tr>
+        <tr><td><strong>Name : </strong><%= @item.name %></td></tr>
+        <tr> <td><strong>Unit : </strong><%= @item.unit.name %></td></tr>
+        <tr> <td><strong>Item Group : </strong><%= @item.item_group.name %></td></tr>
+        <tr> <td><strong>Fiscal Year : </strong><%= @item.fiscal_year.name %></td></tr>
+        <tr> <td><strong>Description : </strong><%= @item.description %></td></tr>
+
+        </tbody>
+      </table></div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-offset-3 col-md-2">
+      <a title="Edit details" href="<%= edit_item_path(@item) %>" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i>Edit Details</a></div>
+    <div class="col-md-2">
+      <a title="View All" href="<%= items_path %>" class="btn btn-primary"><i class="fa fa-eye fa-fw"></i>View All</a><br><br>
+    </div>
+  </div>
+</div>

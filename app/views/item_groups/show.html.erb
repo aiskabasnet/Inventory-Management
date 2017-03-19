@@ -1,0 +1,36 @@
+<style>
+  .thumbnail{
+    margin: 0 auto;
+  }
+</style>
+
+<div class="container ">
+  <div class="row fixed">
+    <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+    <br>
+    <div class="row f1">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <table class="table table-responsive table-hover">
+          <tbody>
+          <tr>
+            <td><strong>Name : </strong><%= @item_group.name %></td></tr>
+          <tr> <td><strong>Parent id: </strong><%= @item_group.parent_id %></td></tr>
+          <tr> <td><strong>Description: </strong><%= @item_group.description %></td></tr>
+
+          </tbody>
+        </table></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <a title="Edit details" href="<%= edit_item_group_path(@item_group) %>" class="btn btn-primary">Edit Details</a></div>
+      <div class="col-md-2">
+        <a title="View All" href="<%= item_groups_path %>" class="btn btn-primary">View All</a><br><br>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="container">
+  <% if @user.errors.any? %>
+
+      <div class="alert alert-danger" role="alert">
+        <h2>
+          <%= pluralize(@user.errors.count,"error") %> occured
+        </h2>
+        <ul>
+          <% @user.errors.full_messages.each do |e| %>
+              <li>
+                <%= e %>
+              </li>
+          <% end %>
+        </ul></div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-offset-2 col-md-6">
+
+      <div class="page-header">
+        <label class="l1"><i class="fa fa-user-plus"></i> Add New User</label>
+      </div>
+      <div class="well well1">
+
+        <%= form_for( :user, :html => {:class=>"form-horizontal"}) do |f| %>
+
+            <div class="form-group">
+              <div class="field">
+                <label class="control-label">Email</label><br />
+                <%= f.email_field :email, autofocus: true,:class=>"form-control", :placeholder=>"Email" %>
+              </div>
+
+              <div class="field">
+                <label class="control-label">Password</label>
+                <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "off", :class=>"form-control", :placeholder=>"Password" %>
+              </div>
+
+              <div class="field">
+                <label class="control-label">Password Confirmation</label><br>
+                <%= f.password_field :password_confirmation, autocomplete: "off", :class=>"form-control", :placeholder=>"Password Confirmation" %>
+              </div>
+              <br>
+              <div class="actions">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <button class="btn btn-primary btn-block" type="submit">Create
+                    </button></div>
+                </div>
+              </div>
+        <% end %>
+
+
+        </div></div></div></div></div>

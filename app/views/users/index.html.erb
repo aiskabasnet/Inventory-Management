@@ -1,0 +1,32 @@
+<div class="container"><br>
+  <div class="row">
+    <%= link_to "Add user", new_home_path %>
+    </a>
+  </div><br>
+  <div class="row">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Email</th>
+      </tr></thead>
+      <% @user.each_with_index do |user,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= user.email %></td>
+            <td>
+
+              </td>
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @user, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - inventory_development@localhost" uuid="afba86c7-114e-49c9-9ef8-d4aad8dc1cdc">
+      <database-info product="PostgreSQL" version="9.6.1" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>aiska</user-name>
+      <introspection-scope>inventory_development:aiska,pg_catalog,public</introspection-scope>
+      <resolve-scope>inventory_development:aiska,public</resolve-scope>
+    </data-source>
+  </component>
+</project>

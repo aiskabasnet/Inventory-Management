@@ -1,0 +1,48 @@
+<div class="container">
+  <h3>List All Suppliers</h3><hr>
+  <div class="row">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Suppliers</li>
+    </ol>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <a href="/suppliers/new" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add New
+      </a></div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-12">
+    <table class="table table-hover table-responsive">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr></thead>
+      <% @supplier.each_with_index do |setting,i| %>
+          <tbody>
+          <tr>
+            <td><%= (@page.to_i - 1) *5+i+1 %></td>
+            <td><%= setting.name %></td>
+            <td><%= setting.address %></td>
+            <td><%= setting.phone_number %></td>
+            <td><%= setting.email %></td>
+            <td><a title="View details" href="<%= supplier_path(setting) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
+              <a title="Edit Details" href="<%= edit_supplier_path(setting) %>" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-pencil-square-o"  aria-hidden="true"></i></a>
+              <a title="Delete" data-method="delete" href="<%= supplier_path(setting) %>" data-confirm="Are you sure?" data-toggle="tooltip" data-placement="right" class="a" ><i class="fa fa-trash-o"  aria-hidden="true"></i></a></td>
+          </tr></tbody>
+      <% end %>
+    </table>
+
+    <%= will_paginate @supplier, renderer: BootstrapPagination::Rails %>
+  </div>
+</div></div>
+<script>
+  $(document).on("ready page:change", function() {
+    $('.a').tooltip();
+  });
+</script>
