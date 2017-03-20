@@ -9,16 +9,15 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
+
 //= require jquery
-//= require turbolinks
-//= require toastr
-//= require jquery-ui
 //= require jquery_ujs
-//= require iziToast.min
-//= require jquery-1.12.4
-//= require jquery_nested_form
+//= require bootstrap.min
+//= require select2.min
+//= require select2
+//= require turbolinks
 //= require_tree .
+
 $(document).ready(function(){
     toastr.options = {
         "closeButton": false,
@@ -36,11 +35,10 @@ $(document).ready(function(){
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
-});
-$("#menu li a").click(function() {
-    $(this).parent().addClass('selected');
+    };
 
-});
-$('.dropdown-toggle').dropdown();
+  /*  $("#menu li a").click(function() {
+        $(this).parent().addClass('selected');
 
+    });*/
+});

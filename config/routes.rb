@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   resources :sales
   resources :suppliers
   resources :items
+  resources :purchases
+  resources :purchase_items
   resources :customers
   resources :user_profiles
   resources :logs

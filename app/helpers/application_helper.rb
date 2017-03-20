@@ -1,14 +1,10 @@
 module ApplicationHelper
-  def custom_bootstrap_flash
-    flash_messages = []
-    flash.each do |type, message|
-      type = 'success' if type == 'notice'
-      type = 'error'   if type == 'alert'
-      puts type
-
-      text = "<script>toastr.#{type}('#{message}');</script>"
-      flash_messages << text.html_safe if message
+  def link_to_add_fields(name, f, association)
+    new_object = f.object.send(association).klass.new
+    id = new_object.object_id
+    fields = f.fields_for(association, new_object,child_index: id) do |builder|
+      render("field_fields", f: builder)
     end
-    flash_messages.join("\n").html_safe
+    link_to(name, "#", class: "add_fields btn btn-success", data: {id: id, fields: fields.gsub("\n", "")})
   end
 end

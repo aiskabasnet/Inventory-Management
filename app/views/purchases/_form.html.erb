@@ -1,219 +1,204 @@
-<%= form_for(@voucher) do |f| %>
-    <div class="form-horizontal">
-
-
-      <% if @voucher.errors.any? %>
-
-
-          <div class="panel panel-danger">
-            <div class="panel-heading"><%= pluralize(@voucher.errors.count, "error") %> prohibited this expensestitle
-              from being saved:
-            </div>
-            <div class="panel-body">
-              <ul>
-                <% @voucher.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-
-      <% end %>
-      <% @value=Expensestitle.all
-         @tax=Taxtitle.all
-         @options_one=Taxtitle.all.map { |t| [t.code+'-'+t.title, t.id,] }
-         @options_two=Expensestitle.all.map { |s| [s.code+'-'+s.name, s.id] }
-         @options_whole=@options_two+@options_one %>
-      <div class="form-group">
-        <%= f.label :voucher_no, :class => 'col-sm-2' %>
-        <div class="col-sm-10">
-          <%= f.number_field :voucher_no, :class => 'form-control' %>
-
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <% if @purchase.errors.any? %>
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <ul>
+            <% @purchase.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
-      </div>
-      <div class="row" style="border-bottom: #cccccc solid 1px;border-top: #cccccc solid 1px; padding:5px 0px;background-color: #eeeeee">
+    <% end %>
+  </div>
+</div>
 
-        <div class="col-md-2"><strong>Dr/Cr</strong></div>
-        <div class="col-md-4"><strong>Particulars</strong></div>
-        <div class="col-md-2"><strong>Page Number</strong></div>
-        <div class="col-md-2"><strong>DR</strong></div>
-        <div class="col-md-2"><strong>CR</strong></div>
-      </div>
+<div class="multiform">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="ui-widget">
+        <% @count = 0 %>
+        <%= form_for @purchase do |f| %>
+            <div class="form-horizontal">
+              <div class="row">
+                <div class="col-md-12">
 
-      <div class="add-wrap">
-        <%
-          test=Expensestitle.select('id', 'name')
-        %>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-5"> <p class="text-right">Supplier</p></label>
+                      <div class="col-md-7">
+                        <%= f.collection_select :supplier_id, Supplier.order(:name), :id, :name, {prompt: "Select Supplier"}, {class: "form-control selectbox"} %>
+                      </div>
+                    </div>
+                  </div>
 
-        <% count=0 %>
-        <%= f.fields_for :voucher_entries do |builder| %>
-            <div class="row" style="margin-top: 10px">
+                  <div class="col-md-6 ">
+                    <div class="form-group">
+                      <label class="control-label col-md-5"><p class="text-right"> Bill Number:</p></label>
+                      <div class="col-md-7">
+                        <% if @data.present? %>
+                            <% @data = @date.bill_no.to_f + 1 %>
+                        <% else %>
+                            <% @data = "" %>
+                        <% end %>
+                        <%= f.text_field :bill_number, :class => "form-control", :value => "#{@data}" %>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-md-2">
-                <select name="jtype" id="jtype" class="form-control select2 jtype" mcounter="<%= count %>">
-                  <option value=0 class="">Select</option>
-                  <option value=1 class="dr<%= count %>">Dr</option>
-                  <option value=2 class="cr<%= count %>">Cr</option>
-                </select>
+                  <div class="col-md-6 ">
+                    <div class="form-group">
+                      <label class="control-label col-md-5"><p class="text-right">Date</p></label>
+                      <div class="col-md-7">
+                        <div class='input-group date' id='datetimepicker1'>
+                          <%= f.text_field :date, :class => "form-control" %>
+                          <span class="input-group-addon">
+                          <span class="fa fa-calendar"></span>
+                        </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-4" style="">
-                <%= builder.select :expensestitle_id, options_for_select(@options_whole), {}, :class => 'form-control select2' %>
-              </div>
-              <div class="col-md-2" style="">
-                <%= builder.text_field :account_page_no, :class => 'form-control' %>
+
+              <hr>
+              <br>
+              <table class="table table-hover">
+
+                <thead class="bg-primary">
+                <tr>
+                  <th>Particular/Item</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody class="add-data">
+                <%= f.fields_for :purchase_items do |builder| %>
+                    <%= render 'field_fields', f: builder %>
+                <% end %>
+                </tbody>
+              </table>
+
+              <hr>
+
+              <div class="col-md-8">
+                <%= link_to_add_fields "Add", f, :purchase_items %>
               </div>
 
-              <div class="col-md-2" style="">
-                <%= builder.number_field :dr, :class => "form-control dr text-right dr#{count}", :placeholder => 0.0, :precision => 2, :step => 'any', :disabled => true %>
-              </div>
 
-              <div class="col-md-2" style="">
-                <%= builder.number_field :cr, :class => "form-control cr text-right cr#{count}", :placeholder => 0.0, :precision => 2, :step => 'any', :disabled => true %>
+              <div class="col-md-4 form-group">
+
+                <div class="col-md-12">
+                  <h4 class="text-right text-primary col-md-6">Total Cost:</h4>
+                  <div class="col-md-6">
+                    <input type="text" class="total-cost form-control" value="0" readonly>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"> <h4 class="text-right text-primary">Discount in %:</h4></label>
+                  <div class="col-md-6">
+                    <%= f.text_field :discount, :class =>"form-control discount", :value => "0" %>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"> <h4 class="text-right text-primary">VAT in %:</h4></label>
+                  <div class="col-md-6">
+                    <%= f.text_field :vat, :class =>"form-control vat", :value => "0" %>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"><h4 class="text-right text-primary ">Grand Total:</h4></label>
+                  <div class="col-md-6">
+                    <input type="text" class=" grand-total form-control" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="col-md-offset-5 col-md-7">
+                    <%= f.submit "Create", :class => "btn btn-primary btn-block" %>
+                  </div>
+                </div>
               </div>
             </div>
-            <% count=count+1 %>
         <% end %>
       </div>
-      <div class="row" style="margin-top: 10px">
-        <div class="col-md-2 col-md-offset-6 text-right"><strong>à¤œà¤®à¥à¤®à¤¾ : </strong></div>
-        <div class="col-md-2">
-          <span class="text-right" id="drtotal" style="font-weight: 600; text-align:right;display: block"></span></div>
-        <div class="col-md-2">
-          <span class="text-right" id="crtotal" style="font-weight: 600;text-align: right;display: block"></span></div>
-      </div>
-
-      <div class="form-group" style="margin-top: 10px">
-        <%= f.label :narration, :class => 'col-sm-1' %>
-        <div class="col-sm-11">
-          <%= f.text_area :narration, :class => 'form-control' %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= f.hidden_field :user_id, :value => my_user %>
-      </div>
-
-      <div class="field">
-        <%= f.hidden_field :fiscal_year_id, :value => current_fiscal_id %>
-      </div>
-      <div class="field">
-        <%= f.hidden_field :amount, :id => 'amount' %>
-      </div>
-
-      <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-10">
-          <%= f.submit :class => 'btn btn-default' %><a href="#" class="btn btn-default add_field_button">Add
-          more</a> <%= link_to 'Back', vouchers_path, :class => 'btn btn-default' %>
-        </div>
-      </div>
     </div>
-<% end %>
-<% @hello="" %>
-<% @value.try(:each) do |s|
-  @hello=@hello+"<option value=#{s.id}>"+s.code+'-'+s.name+"</option>"
-end
-%>
+  </div>
+</div>
 
-<% @tax.try(:each) do |t|
-  @hello=@hello+"<option value=#{t.id}>"+t.code+'-'+t.title+"</option>"
-end
-%>
-<% test=@hello %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    var count = 1;
 
-<script>
-  var test = '<%=test %>';
-  var decoded = $('<div/>').html(test).text();
-  //alert(decoded);
-  $(document).ready(function () {
-    var max_fields = 10; //maximum input boxes allowed
-    var wrapper = $(".add-wrap"); //Fields wrapper
-    var add_button = $(".add_field_button"); //Add button ID
-    var options = '<option>Hello</option><option>Dilli</option>'
+    $('[data-toggle="tooltip"]').tooltip();
 
+    $('body').on('blur', '.quantity, .unit-price', function(e) {
+      var row = $(this).closest('tr');
+      var pr = $('.unit-price', row),
+          qu = $('.quantity', row),
+          total = $('.total', row);
+      var grand = $('.total-cost');
+      temp = parseFloat(total.val());
+      buy_pr = parseFloat(pr.val());
+      sell_pr = parseFloat(qu.val());
 
-    var x = 1; //initlal text box count
-    $(add_button).click(function (e) { //on add input button click
-      e.preventDefault();
-      if (x < max_fields) { //max input box allowed
-        x++; //text box increment
-        var ha = '<div class="row todo" style="margin-top:10px;position: relative" >';
-        ha += '<div class="col-md-2"><select name="jtype" id="jtype" class="form-control new jtype" mcounter="' + x + '"><option value=0 class="">Select</option><option value=1>Dr</option><option value=2>Cr</option></select></div>';
-        ha += '<div class="col-md-4" style="">';
-        ha += '<select name="voucher[voucher_entries_attributes][' + x + '][account_title_id]" class="form-control new">';
-        ha += decoded;
-        ha += '</select>';
-        ha += '</div>';
-        ha += '<div class="col-md-2">';
-        ha += '<input type="text" name="voucher[voucher_entries_attributes][' + x + '][account_page_no]" class="form-control"/>';
-        ha += '</div>';
-        ha += '<div class="col-md-2">';
-        ha += '<input type="number" step="any" name="voucher[voucher_entries_attributes][' + x + '][dr]" class="form-control dr text-right dr' + x + '" value=0.0 disabled="disabled"/>';
-        ha += '</div>';
-        ha += '<div class="col-md-2">';
-        ha += '<input type="number" step="any" name="voucher[voucher_entries_attributes][' + x + '][cr]" class="form-control cr text-right cr' + x + '" value=0.0 disabled="disabled"/>';
-        ha += '</div>';
-        ha += '<a href="#" class="remove_field pull-right" style="position: absolute;bottom: 2px;right: 0px">x</a>';
-        ha += '</div>';
-        $(wrapper).append(ha); //add input box
+      if(!isNaN(buy_pr) && !isNaN(sell_pr) ) {
+        total.val( ( sell_pr * buy_pr ).toFixed(2) );
+        grand.val(( parseFloat(grand.val()) + (parseFloat(total.val() )- temp)).toFixed(4));
       }
-      $('.new').select2();
     });
 
-    $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-      e.preventDefault();
-      $(this).parent('div').remove();
-      x--;
-    })
+    $('body').on('blur', '.discount', function(e) {
+      var total = $('.total-cost'),
+          discount = $('.discount'),
+          /*vat = $('.vat'),*/
+          grand_cost = $('.grand-total');
 
+      total_cost = parseFloat(total.val());
+      discount_per = parseFloat(discount.val());
+      /*vat_per = parseFloat(vat.val());*/
+      discount_cost = discount_per/100 * total_cost;
+      /*vat_cost = parseFloat(vat.val());*/
+      grand_total = parseFloat(grand_cost.val());
+      /*vat_cost = vat_per/100 * grand_total;*/
+      if( ! isNaN(total_cost) && !isNaN(discount_cost) ) {
+        grand_cost.val( ( total_cost - discount_cost).toFixed(4));
+      }
+    });
+
+    $('body').on('blur', '.vat', function(e) {
+      var total = $('.total-cost'),
+          discount = $('.discount'),
+          vat = $('.vat'),
+          grand_cost = $('.grand-total');
+
+      total_cost = parseFloat(total.val());
+      /*discount_per = parseFloat(discount.val());*/
+      vat_per = parseFloat(vat.val());
+      /*discount_cost = discount_per/100 * total_cost;*/
+      /*vat_cost = parseFloat(vat.val());*/
+      grand_total = parseFloat(grand_cost.val());
+      vat_cost = vat_per/100 * grand_total;
+
+      if( ! isNaN(total_cost) && !isNaN(vat_cost) ) {
+        grand_cost.val( ( grand_total + vat_cost).toFixed(4));
+      }
+    });
+    $('#datetimepicker1').datetimepicker({
+      viewMode: 'years',
+      format: 'YYYY/MM/DD'
+    });
+   // $('.selectbox').select2();
+
+    $('.select-item').select2();
   });
-</script>
-<script>
-  $(document).ready(function () {
-    $('.select2').select2();
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    $(wrapper).on("blur", ".dr", function (e) {
-      var sum = 0;
-      $('.dr').each(function () {
-        if ($(this).val() != "") {
-          sum += parseFloat($(this).val());
-        }
 
-      });
-      document.getElementById("drtotal").innerHTML = sum.toFixed(2);
-      $("#amount").val(sum.toFixed(2));
-    });
-    $(wrapper).on("blur", ".cr", function (e) {
-      var sum = 0;
-      $('.cr').each(function () {
-        if ($(this).val() != "") {
-          sum += parseFloat($(this).val());
-        }
-
-      });
-      document.getElementById("crtotal").innerHTML = sum.toFixed(2);
-      ;
-      $("#amount").val(sum.toFixed(2));
-    });
-    $(wrapper).on("change", "select.jtype", function (e) {
-      var st = $(this).attr("mcounter");
-      if (this.value == 1) {
-        $(".cr" + st).attr("disabled", "disabled");
-        $(".dr" + st).attr("disabled", false);
-      }
-      else if (this.value == 2) {
-        $(".dr" + st).attr("disabled", "disabled");
-        $(".cr" + st).attr("disabled", false);
-      }
-      else {
-        $(".dr" + st).attr("disabled", "disabled");
-        $(".cr" + st).attr("disabled", "disabled");
-      }
-
-
-    });
-
-  });
+  $('select').select2();
 </script>

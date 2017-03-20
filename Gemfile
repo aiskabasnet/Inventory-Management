@@ -60,5 +60,5 @@ gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 gem "pg"
 gem 'toastr-rails'
 gem "nested_form"
-gem 'izitoast', '~> 1.1', '>= 1.1.1'
+gem "jquery-rails"
 gem "jquery-ui-rails"

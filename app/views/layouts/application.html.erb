@@ -1,86 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Inventory Management System</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>Inventory Management System</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= custom_bootstrap_flash %>
-    <%= javascript_include_tag 'jquery-1.4.2.min.js' %>
-  <!--  <%= javascript_include_tag 'jquery-ui.js' %>
-    <%= javascript_include_tag 'jquery-1.12.4.js' %>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
+<body>
+<% if user_signed_in? %>
+    <div class="container-fluid">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
 
-  </head>
-
-  <body>
-  <% if user_signed_in? %>
-      <div class="container-fluid">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="/"><i class="fa fa-home home" aria-hidden="true"></i></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-              <ul class="nav navbar-nav" id="menu">
-                <li class="aa"><a href="/homes">Users</a></li>
-                <li class="aa"><a href="/items">Items</a></li>
-                <li class="aa"><a href="/sales/new">Sales</a></li>
-                <li><a href="/units">Units</a></li>
-                <li><a href="/item_groups">Item Groups</a></li>
-                <li><a href="/stocks">Stocks</a></li>
-                <li><a href="/logs">Logs</a></li>
-                <li><a href="/suppliers">Suppliers</a></li>
-                <li><a href="/customers">Customers</a></li>
-                <li class="dropdown" role="presentation">
-                  <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#" aria-expanded="false" aria-haspopup="true">Fiscal Years
-                    <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/fiscal_years"><i class="fa fa-list-ol fa-fw"></i>&nbsp;View Fiscal Years</a></li>
-                    <li><a href="/fiscal_years/new"><i class="fa fa-plus-circle fa-fw"></i>Add New Fiscal Year</a></li>
-                  </ul>
-                </li></ul>
-                <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown a1" role="presentation">
-                  <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#" aria-expanded="false"><i class="fa fa-user fa-fw" aria-hidden="true"></i><%= current_user.username %>
-                    <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/company_profiles/8/edit"><i class="fa fa-list-ol fa-fw"></i>View Company Profiles</a></li>
-                    <li><a href="<%= edit_user_registration_path %>"><i class="fa fa-pencil-square-o fa-fw"></i>Edit Profile</a></li>
-                    <li><a href="<%= destroy_user_session_path %>"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
-                  </ul>
-                </li>
-                  </ul>
-
-            </div>
+            <a class="navbar-brand" href="/"><i class="fa fa-home home" aria-hidden="true"></i></a>
           </div>
-        </nav>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav" id="menu">
+              <li class="aa"><a href="/homes">Users</a></li>
+              <li class="aa"><a href="/items">Items</a></li>
+              <li class="aa"><a href="/sales/new">Sales</a></li>
+              <li><a href="/units">Units</a></li>
+              <li><a href="/item_groups">Item Groups</a></li>
+              <li><a href="/stocks">Stocks</a></li>
+              <li><a href="/logs">Logs</a></li>
 
-</div>
-  <% else %>
-        <div class="well main">
-          <div class="container">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Transactions
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/sales"><i class="fa fa-list-ol fa-fw"></i>&nbsp;Sales</a></li>
+                  <li><a href="/purchases"><i class="fa fa-plus-circle fa-fw"></i>Purchase</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Parties
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/suppliers"><i class="fa fa-list-ol fa-fw"></i>&nbsp;Suppliers</a></li>
+                  <li><a href="/customers"><i class="fa fa-plus-circle fa-fw"></i>Customers</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown a1" role="presentation">
+                <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#" aria-expanded="false"><i class="fa fa-user fa-fw" aria-hidden="true"></i><%= current_user.username %>
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/company_profiles/8/edit"><i class="fa fa-list-ol fa-fw"></i>View Company Profiles</a>
+                  </li>
+                  <li>
+                    <a href="<%= edit_user_registration_path %>"><i class="fa fa-pencil-square-o fa-fw"></i>Edit Profile</a>
+                  </li>
+                  <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %><i class="fa fa-sign-out fa-fw"></i>Logout</li>
+                </ul>
+              </li>
+            </ul>
 
-      <h4>Inventory Management System</h4>
-            </div>
+          </div>
         </div>
-  <% end %>
-  <!--<div class="container">
-    <ol class="breadcrumb">
-    </ol></div>-->
-      <div class="container c1">
-          <%= yield %></div>
+      </nav>
 
-  </body>
+    </div>
+<% else %>
+    <div class="well main">
+      <div class="container">
+
+        <h4>Inventory Management System</h4>
+      </div>
+    </div>
+<% end %>
+<!--<div class="container">
+  <ol class="breadcrumb">
+  </ol></div>-->
+<div class="container c1">
+  <%= yield %></div>
+
+</body>
 </html>
 <% unless flash.empty? %>
     <script type="text/javascript">
@@ -90,7 +94,9 @@
       <% end %>
     </script>
 <% end %>
+<!---
 <script>
+
   $(document).ready(function () {
     var url = window.location;
     // Will only work if string in href matches with location
@@ -101,5 +107,4 @@
       return this.href == url;
     }).parent().addClass('active').parent().parent().addClass('active');
   });
-
-</script>
+</script>-->
