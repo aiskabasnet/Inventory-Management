@@ -1,7 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :item_group
   belongs_to :unit
-  has_many :sales
   belongs_to :fiscal_year
   has_one :stock, inverse_of: :item, dependent: :destroy
   accepts_nested_attributes_for :stock
@@ -13,6 +12,7 @@ class Item < ApplicationRecord
   has_one :stock,inverse_of: :item, :dependent => :destroy
   accepts_nested_attributes_for :stock
   has_many :purchase_items
+  has_many :sale_items
   def self.search(search)
     if search
      where('name LIKE ?', "%#{search}%")

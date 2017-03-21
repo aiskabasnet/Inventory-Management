@@ -8,10 +8,16 @@
     </ol>
   </div>
   <div class="row">
-    <div class="col-sm-4">
-    <a href="/item_groups/new" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add New
+    <div class="col-sm-12">
+    <a href="/item_groups/new" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Add New
     </a></div>
   </div><br>
+  <% if @item_group.count == 0 %>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>No records !!</h3></div></div><hr>
+  <% else %>
+
   <div class="row">
     <table class="table table-hover table-responsive">
       <thead>
@@ -35,6 +41,7 @@
           </tr></tbody>
       <% end %>
     </table>
+    <% end  %>
 
     <%= will_paginate @item_group, renderer: BootstrapPagination::Rails %>
   </div>

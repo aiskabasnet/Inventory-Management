@@ -1,23 +1,30 @@
-<div class="purchase">
+<div class="container">
+  <div class="col-sm-12">
+  <h3>List All Purchase</h3><hr>
   <div class="row">
-    <a href="/company_profiles/8/edit" title="Click to change current fiscal year" data-toggle="tooltip">
-      <div class="col-sm-3 pull-right">
+    <div class="col-sm-12">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Purchases</li>
+    </ol>
+  </div>
+    </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+    <a href="/company_profiles/8/edit" title="Click to change current fiscal year" data-toggle="tooltip" class="text-success">
+      <div class="col-sm-12">
         <% @company_profile.each_with_index do |c|  %>
             <h4>Current Fiscal Year : <%= c.fiscal_year.name %></h4>
         <% end %>
       </div></a>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-
-      <div class="row">
-        <div class="col-md-6 pull-right">
+    </div>
+        <div class="col-md-3 pull-right">
           <a class="btn btn-primary pull-right" href="<%= new_purchase_path %>"><span><i class="fa fa-plus fa-fw">&nbsp;</i></span>
             Add New</a>
         </div>
-      </div>
-      <br>
-
+</div>
+    <hr>
       <div class="row">
         <div class="col-md-12">
 
@@ -30,27 +37,28 @@
               <th>Total Cost</th>
               <th>Net Discount</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
             </thead>
 
-            <% @purchase.each_with_index do |f, i| %>
+            <% @purchase.each_with_index do |purchase, i| %>
                 <tbody>
                 <tr>
                   <td><%= (@page.to_i - 1) * @perpage+ i+1 %></td>
-                  <td><%= f.bill_number %></a></td>
+                  <td><%= purchase.bill_number %></a></td>
                   <td>
-                    <%= f.supplier.name %>
+                    <%= purchase.supplier.name %>
                   </td>
                   <td>
-                    <%= f.total %>
+                    <%= purchase.total %>
                   </td>
                   <td>
-                    <%= f.discount %>
+                    <%= purchase.discount %>
                   </td>
                   <td>
-                    <%= f.date %>
+                    <%= purchase.date %>
                   </td>
-
+                  <td><a title="View details" href="<%= purchase_item_path(purchase) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
                 </tr>
                 </tbody>
 
@@ -64,8 +72,7 @@
       <%= will_paginate @purchase, renderer: BootstrapPagination::Rails %>
 
     </div>
-  </div>
-
+</div>
 </div>
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function () {

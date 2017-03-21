@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320110309) do
+ActiveRecord::Schema.define(version: 20170321094330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,9 +25,10 @@ ActiveRecord::Schema.define(version: 20170320110309) do
     t.string   "logo"
     t.string   "district"
     t.string   "zone"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "fiscal_year_id"
+    t.decimal  "vat",            precision: 3
   end
 
   create_table "current_fiscal_years", force: :cascade do |t|
@@ -105,15 +106,24 @@ ActiveRecord::Schema.define(version: 20170320110309) do
     t.decimal  "vat",            precision: 10, scale: 2
   end
 
-  create_table "sales", force: :cascade do |t|
+  create_table "sale_items", force: :cascade do |t|
+    t.integer  "sale_id"
     t.integer  "item_id"
-    t.decimal  "unit_sell_price"
     t.integer  "quantity"
-    t.boolean  "cash_credit"
+    t.decimal  "unit_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.date     "date"
+    t.integer  "bill_number"
+    t.decimal  "discount"
+    t.decimal  "total"
     t.integer  "customer_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.integer  "fiscal_year_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "stocks", force: :cascade do |t|

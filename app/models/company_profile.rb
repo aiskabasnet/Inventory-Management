@@ -16,4 +16,6 @@ class CompanyProfile < ApplicationRecord
     errors.add_to_base('There can only be one') if Whatever.count > 0
   end
   belongs_to :fiscal_year
+  belongs_to :purchase, optional: true
+  belongs_to :sale, optional: true
 end

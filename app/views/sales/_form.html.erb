@@ -1,237 +1,219 @@
 
-<style>
-  .ui-autocomplete {
-    max-height: 150px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
-  .custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
-  }
-  * html .ui-autocomplete {
-    height: 100px;
-  }
+<div class="multiform">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="ui-widget">
+        <% @count = 0 %>
+        <%= form_for @sale do |f| %>
+            <div class="form-horizontal">
+              <div class="row">
+                <!--<div class="col-md-12">-->
 
-</style>
-<div class="row">
-  <div class="col-sm-2">
-    <label for="">Date :&nbsp;</label></div>
-  <div class="col-sm-4">
-    <label for="">
-      <%= Time.now.strftime("%d/%m/%Y") %></label>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3"> <p class="">Customer</p></label>
+                      <div class="col-md-8">
+                        <%= f.collection_select :customer_id, Customer.order(:name), :id, :name, {prompt: "Select Customer"}, {class: "form-control selectbox"} %>
+                      </div>
+                    </div>
+                  </div></div>
+
+                <div class="col-md-6 ">
+                  <div class="form-group">
+                    <label class="control-label col-md-3"><p class="text-right">Date</p></label>
+                    <div class="col-md-8">
+                      <div class='input-group date'>
+                        <%= f.text_field :date, :class => "form-control", :id => "datepicker1" %>
+                        <span class="input-group-addon">
+                          <span class="fa fa-calendar"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 ">
+                  <div class="form-group">
+                    <label class="control-label col-md-3"><p class="text-right"> Bill Number</p></label>
+                    <div class="col-md-8">
+                      <% if @data.present? %>
+                          <% @data = @date.bill_no.to_f + 1 %>
+                      <% else %>
+                          <% @data = "" %>
+                      <% end %>
+                      <%= f.text_field :bill_number, :class => "form-control", :value => "#{@data}" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+              <br>
+              <table class="table table-hover">
+
+                <thead class="bg-primary">
+                <tr>
+                  <th>Particular/Item</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody class="add-data">
+                <%= f.fields_for :sale_items do |builder| %>
+                    <%= render 'field_fields', f: builder %>
+                <% end %>
+                </tbody>
+              </table>
+
+              <hr>
+
+              <div class="col-md-8">
+                <%= link_to_add_fields "Add", f, :sale_items %>
+              </div>
+
+
+              <div class="col-md-4 form-group">
+
+                <div class="col-md-12">
+                  <h4 class="text-right text-primary col-md-6">Total Cost:</h4>
+                  <div class="col-md-6">
+                    <input type="text" class="total-cost form-control" value="0" readonly>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"> <h4 class="text-right text-primary">Discount in Rs. :</h4></label>
+                  <div class="col-md-6">
+                    <%= f.text_field :discount, :class =>"form-control discount", :value => "0" %>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"><h4 class="text-right text-primary ">Grand Total:</h4></label>
+                  <div class="col-md-6">
+                    <input type="text" class=" grand-total form-control" value="0" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="control-label col-md-6"><h4 class="text-right text-primary ">Price with VAT:</h4></label>
+                  <div class="col-md-6">
+                    <input type="text" class=" vat form-control" value="0" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="col-md-offset-5 col-md-7">
+                    <%= f.submit "Create", :class => "btn btn-primary btn-block" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
-<%= form_for @sale, :html => {:class=>"form-horizontal"} do |f| %>
-<div class="row">
-<div class="col-sm-2">
-  <label for="">Customer :</label>
-</div>
-  <div class="col-sm-3">
-    <div class="ui-widget">
-    <%= f.collection_select :customer_id, Customer.order(:name),:id, :name, {prompt: "Select Customer"}, {id:"combobox"} %>
-  </div></div>
-</div>
-    <hr>
 
-<table class="table table-responsive">
-  <thead>
-  <tr>
-  <td>Particulars/Items</td>
-  <td>Unit</td>
-  <td>Price</td>
-  <td>Total</td>
-  <td></td></tr>
-  </thead>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    var count = 1;
+    vatp = <%= @company_profile.vat %>;
 
+    $('[data-toggle="tooltip"]').tooltip();
 
-    <tbody id="my_table">
-    <div class="fields">
-    <tr>
-      <td><div class="ui-widget">
-        <%= f.collection_select :item_id, Item.order(:name),:id, :name, {prompt: "Select Item"}, {id:"combobox1"} %>
-      </div></td>
-      <td><%= f.text_field :unit_sell_price, :class => "form-control", :placeholder => "Unit"  %></td>
-      <td><%= f.text_field :quantity, :class => "form-control", :placeholder => "Price"  %></td>
-      <td><%= f.text_field :cash_credit , :class => "form-control", :placeholder => "Total" %></td>
-      <td><a onclick="add()" id="my_button" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a></td>
+    $('body').on('blur', '.quantity, .unit-price', function(e) {
+      var row = $(this).closest('tr');
+      var pr = $('.unit-price', row),
+          qu = $('.quantity', row),
+          total = $('.total', row);
+      var grand = $('.total-cost');
+      var gt = $('.grand-total');
+      var vat = $('.vat');
+      var dis = $('.discount');
+      temp = parseFloat(total.val());
+      buy_pr = parseFloat(pr.val());
+      sell_pr = parseFloat(qu.val());
+      discount = parseFloat(dis.val());
+      vatamount = 0;
 
-    </tr></div>
-    </tbody>
-</table>
-<% end %>
-<div class="row">
-  <div class="col-sm-3">
-    <button class="btn btn-primary " type="submit">Submit
-    </button></div>
-  </div>
+      if(!isNaN(buy_pr) && !isNaN(sell_pr) ) {
+        total.val( ( sell_pr * buy_pr ).toFixed(2) );
+        grand.val(( parseFloat(grand.val()) + (parseFloat(total.val() )- temp)).toFixed(2));
+        gt.val(((parseFloat(grand.val()))- parseFloat(dis.val())).toFixed(2));
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
+        vat.val(parseFloat(gt.val()) +( vatp/100 * parseFloat(gt.val()))).toFixed(2);
 
-  function add() {
-    $("#my_table").append("<tr>" +
-        "<td><input class='form-control' placeholder='Unit' type='text' name='sale[unit_sell_price]' id='sale_unit_sell_price'></td>" +
-        "<td><input class='form-control' placeholder='Unit' type='text' name='sale[unit_sell_price]' id='sale_unit_sell_price'></td>" +
-        "<td><input class='form-control' placeholder='Unit' type='text' name='sale[unit_sell_price]' id='sale_unit_sell_price'></td>" +
-        "<td><input class='form-control' placeholder='Unit' type='text' name='sale[unit_sell_price]' id='sale_unit_sell_price'></td>" +
-        "<td><a id='my_button' onclick='add()' class='btn btn-primary'><i class='fa fa-plus'></i>Add</a>"+
-        "</tr>");
-  }
-
-  $( function() {
-    $.widget( "custom.combobox", {
-      _create: function() {
-        this.wrapper = $( "<span>" )
-            .addClass( "custom-combobox" )
-            .insertAfter( this.element );
-
-        this.element.hide();
-        this._createAutocomplete();
-        this._createShowAllButton();
-      },
-
-      _createAutocomplete: function() {
-        var selected = this.element.children( ":selected" ),
-            value = selected.val() ? selected.text() : "";
-
-        this.input = $( "<input>" )
-            .appendTo( this.wrapper )
-            .val( value )
-            .attr( "title", "" )
-            .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-            .autocomplete({
-              delay: 0,
-              minLength: 0,
-              source: $.proxy( this, "_source" )
-            })
-            .tooltip({
-              classes: {
-                "ui-tooltip": "ui-state-highlight"
-              }
-            });
-
-        this._on( this.input, {
-          autocompleteselect: function( event, ui ) {
-            ui.item.option.selected = true;
-            this._trigger( "select", event, {
-              item: ui.item.option
-            });
-          },
-
-          autocompletechange: "_removeIfInvalid"
-        });
-      },
-
-      _createShowAllButton: function() {
-        var input = this.input,
-            wasOpen = false;
-
-        $( "<a>" )
-            .attr( "tabIndex", -1 )
-            .attr( "title", "Show All Items" )
-            .tooltip()
-            .appendTo( this.wrapper )
-            .button({
-              icons: {
-                primary: "ui-icon-triangle-1-s"
-              },
-              text: false
-            })
-            .removeClass( "ui-corner-all" )
-            .addClass( "custom-combobox-toggle ui-corner-right" )
-            .on( "mousedown", function() {
-              wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-            })
-            .on( "click", function() {
-              input.trigger( "focus" );
-
-              // Close if already visible
-              if ( wasOpen ) {
-                return;
-              }
-
-              // Pass empty string as value to search for, displaying all results
-              input.autocomplete( "search", "" );
-            });
-      },
-
-      _source: function( request, response ) {
-        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-        response( this.element.children( "option" ).map(function() {
-          var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
-            return {
-              label: text,
-              value: text,
-              option: this
-            };
-        }) );
-      },
-
-      _removeIfInvalid: function( event, ui ) {
-
-        // Selected an item, nothing to do
-        if ( ui.item ) {
-          return;
-        }
-
-        // Search for a match (case-insensitive)
-        var value = this.input.val(),
-            valueLowerCase = value.toLowerCase(),
-            valid = false;
-        this.element.children( "option" ).each(function() {
-          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-            this.selected = valid = true;
-            return false;
-          }
-        });
-
-        // Found a match, nothing to do
-        if ( valid ) {
-          return;
-        }
-
-        // Remove invalid value
-        this.input
-            .val( "" )
-            .attr( "title", value + " didn't match any item" )
-            .tooltip( "open" );
-        this.element.val( "" );
-        this._delay(function() {
-          this.input.tooltip( "close" ).attr( "title", "" );
-        }, 2500 );
-        this.input.autocomplete( "instance" ).term = "";
-      },
-
-      _destroy: function() {
-        this.wrapper.remove();
-        this.element.show();
       }
     });
+    /*
+     $('body').on('blur', '.total-cost , .discount', function(e) {
+     var total = $('.total-cost'),
+     discount = $('.discount'),
+     /!*vat = $('.vat'),*!/
+     grand_cost = $('.grand-total');
 
-    $( "#combobox" ).combobox();
-    $( "#combobox1" ).combobox();
-    $( "#toggle" ).on( "click", function() {
-      $( "#combobox" ).toggle();
+     total_cost = parseFloat(total.val());
+     discount_per = parseFloat(discount.val());
+     /!*vat_per = parseFloat(vat.val());*!/
+     discount_cost = discount_per/100 * total_cost;
+     /!*vat_cost = parseFloat(vat.val());*!/
+     grand_total = parseFloat(grand_cost.val());
+     /!*vat_cost = vat_per/100 * grand_total;*!/
+     if( ! isNaN(total_cost) && !isNaN(discount_cost) ) {
+     grand_cost.val( ( total_cost - discount_cost).toFixed(4));
+     }
+     });
+
+     $('body').on('blur', '.vat', function(e) {
+     var total = $('.total-cost'),
+     discount = $('.discount'),
+     vat = $('.vat'),
+     grand_cost = $('.grand-total');
+
+     total_cost = parseFloat(total.val());
+     /!*discount_per = parseFloat(discount.val());*!/
+     vat_per = parseFloat(vat.val());
+     /!*discount_cost = discount_per/100 * total_cost;*!/
+     /!*vat_cost = parseFloat(vat.val());*!/
+     grand_total = parseFloat(grand_cost.val());
+     vat_cost = vat_per/100 * grand_total;
+
+     if( ! isNaN(total_cost) && !isNaN(vat_cost) ) {
+     grand_cost.val( ( grand_total + vat_cost).toFixed(4));
+     }
+     });*/
+    $('body').on('blur', '.total-cost, .discount', function(e) {
+      var total = $('.total-cost'),
+          discount = $('.discount'),
+          vat = $('.vat'),
+          grand_cost = $('.grand-total');
+      total_cost = parseFloat(total.val());
+      discount_cost = parseFloat(discount.val());
+      grand_total = parseFloat(grand_cost.val());
+      if( total_cost<discount_cost){
+        alert("Discount is more than total cost");
+        discount.val('0');
+      }
+      if( ! isNaN(total_cost) && !isNaN(discount_cost) ) {
+        grand_cost.val( ( total_cost - discount_cost).toFixed(2));
+        vat.val(parseFloat(grand_cost.val()) +( vatp/100 * parseFloat(grand_cost.val()))).toFixed(2);
+
+      }
     });
-    $( "#toggle" ).on( "click", function() {
-      $( "#combobox1" ).toggle();
+    $('#datepicker1').datepicker({
+      format: "yyyy/mm/dd"
+    }).on('changeDate', function(e){
+      $(this).datepicker('hide');
     });
-  } );
+    // $('.selectbox').select2();
+
+    $('.select-item').select2();
+  });
+
+  $('select').select2();
 </script>
-

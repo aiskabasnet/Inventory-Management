@@ -1,17 +1,35 @@
+<div class="container ">
+  <div class="row">
+    <div class="col-md-12">
+      <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %></div></div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Show Purchase</h3><hr>
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/purchases">Purchase</a></li>
+        <li>Show</li>
+      </ol>
+    </div></div>
+
 <div class="row">
+  <div class="col-md-3 pull-right">
+    <a class="btn btn-primary pull-right" href="<%= new_purchase_path %>"><span><i class="fa fa-plus fa-fw">&nbsp;</i></span>
+      Add New</a>
+  </div>
   <div class="col-md-12">
     <% @purchase_items.each do |g|%>
 
         <div class="row">
-          <h4 class="text-success col-md-3"><strong class="text-primary">Purchased From:</strong> <%= g.purchase.vendor.name %></h4>
-          <h4 class="text-success col-md-3"><strong class="text-primary">Date: </strong> <%=  g.purchase.date %></h4>
-          <h4 class="text-success col-md-3"><strong class="text-primary">Sale Amount: </strong> <%=  g.purchase.total %></h4>
+          <h4 class="col-md-6"><strong class="text-danger">Purchased From:</strong> <%= g.purchase.supplier.name %></h4>
+          <h4 class="col-md-6"><strong class="text-danger">Date: </strong> <%=  g.purchase.date %></h4>
+          <h4 class="col-md-6"><strong class="text-danger">Sale Amount: </strong> <%=  g.purchase.total %></h4>
           <% break %>
     <% end %>
-    <div class="col-md-3 pull-right">
-      <a class="btn btn-primary pull-right" href="<%= new_purchase_path %>"><span><i class="fa fa-plus fa-fw">&nbsp;</i></span>
-        Add New</a>
-    </div>
     </div>
 
     <br>
@@ -65,6 +83,7 @@
 
   <%= will_paginate @purchase_items, renderer: BootstrapPagination::Rails %>
 </div>
+  </div>
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function () {

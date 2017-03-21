@@ -12,6 +12,7 @@
  *
 *= require jquery-ui
  *= require toastr
+   *= require bootstrap-datepicker
  *= require select2
  *= require select2.min
  *= require_tree .

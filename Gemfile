@@ -62,3 +62,4 @@ gem 'toastr-rails'
 gem "nested_form"
 gem "jquery-rails"
 gem "jquery-ui-rails"
+gem 'bootstrap-datepicker-rails'

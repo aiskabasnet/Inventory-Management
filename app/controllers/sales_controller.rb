@@ -1,57 +1,68 @@
 class SalesController < ApplicationController
-  def edit
-    @sale = Sale.find(params[:id])
-  end
+    def new
+      @sale = Sale.new
+      @sale_item = @sale.sale_items.build
+      @item = Item.order(:name)
+      @company_profile = CompanyProfile.find(8);
+      @date = Sale.limit(1).reverse
+    end
+    def create
+      @sale = Sale.new(sale_params)
+      @company_profile = CompanyProfile.first
+      @sale.fiscal_year = @company_profile.fiscal_year
+      @totalcost = 0
+      @sale.sale_items.each do |total|
+        if total.present?
+          @totalcost += total.unit_price * total.quantity
+        end
+      end
+      @sale.total = @totalcost
+=begin
+    @fiscal_year = FiscalYear.all
+    @fiscal_year.each do |f|
+      @fiscal = f.name
+    end
+    @sale.fiscal_year = @fiscal
+=end
+      if @sale.save
+        @log = Log.create(description: "Sold items to" + @sale.customer.name, user: current_user )
+        @sale.sale_items.each do |g|
+          if g.present?
+            @stocks = Stock.where(item_id: g.item_id)
+            @stocks.each do |f|
+              @stock = f
+            end
+=begin
+            @stock.unit_price = ((@stock.unit_price * @stock.quantity) + (g.unit_price * g.quantity)) / (@stock.quantity + g.quantity)
+=end
+            @stock.quantity = @stock.quantity - g.quantity
+            @stock.save
+          end
+        end
+        flash[:success] = "Items Saled successfully"
 
-  def show
-    @sale = Sale.find(params[:id])
-  end
-
-  def index
-    @page = params[:page] || 1
-    @sale = Sale.paginate(:page => params[:page], :per_page =>5)
-  end
-
-  def update
-    @sale = Sale.find(params[:id])
-    if @sale.update(sale_param)
-      @log = Log.create(description: "Edited Sale "+ @sale.name, user: current_user )
-      flash[:success]= "Sale edited successfully !!"
-      redirect_to '/sales'
-    else
-      render 'new'
+        redirect_to '/sales/new'
+      else
+        @item = Item.order(:name)
+        render 'new'
+      end
     end
 
-
-  end
-
-  def destroy
-    @sale = Sale.find(params[:id])
-    @log = Log.create(description: "Deleted Sale "+ @sale.name, user: current_user )
-    @sale.destroy
-    flash[:success] = "Record Deleted !!"
-    redirect_to "/sales"
-
-  end
-
-  def new
-    @sale = Sale.new
-  end
-
-  def create
-    @sale= Sale.new(sale_param)
-    @company_profile = CompanyProfile.first
-    @sale.fiscal_year = @company_profile.fiscal_year
-    if @sale.save
-      flash[:success] = "Sale added successfully"
-
-      redirect_to '/sales/new'
-    else
-      render 'new'
+    def show
+      @sale_item = SaleItem.find(params[:id])
     end
-  end
-  private
-  def sale_param
-    params.require(:sale).permit(:item_id, :unit_sell_price, :fiscal_year, :quantity, :cash_credit, :customer_id)
-  end
+
+    def index
+      @title = "List"
+      @perpage = 20
+      @sale = Sale.paginate(:page => params[:page], :per_page => @perpage)
+      @page = params[:page] || 1
+      @company_profile = CompanyProfile.paginate(:page => params[:page], :per_page => 10)
+    end
+
+    private
+
+    def sale_params
+      params.require(:sale).permit(:customer_id, :date, :bill_number, :discount, sale_items_attributes: [:sale_id , :item_id, :quantity, :unit_price, :_destroy ])
+    end
 end

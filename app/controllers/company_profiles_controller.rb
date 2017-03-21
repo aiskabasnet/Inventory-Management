@@ -51,7 +51,7 @@ class CompanyProfilesController < ApplicationController
 
     private
     def company_profile_param
-      params.require(:company_profile).permit(:name,:address,:vdc_mun,:ward_no,:phone_number, :vat_pan_no, :logo,
+      params.require(:company_profile).permit(:name,:address,:vdc_mun,:ward_no,:vat,:phone_number, :vat_pan_no, :logo,
       :district,:zone, :fiscal_year_id)
     end
     

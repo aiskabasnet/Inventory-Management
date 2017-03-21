@@ -30,7 +30,7 @@
               <li class="aa"><a href="/sales/new">Sales</a></li>
               <li><a href="/units">Units</a></li>
               <li><a href="/item_groups">Item Groups</a></li>
-              <li><a href="/stocks">Stocks</a></li>
+              <!--<li><a href="/stocks">Stocks</a></li>-->
               <li><a href="/logs">Logs</a></li>
 
               <li class="dropdown">
@@ -45,8 +45,8 @@
                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Parties
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/suppliers"><i class="fa fa-list-ol fa-fw"></i>&nbsp;Suppliers</a></li>
-                  <li><a href="/customers"><i class="fa fa-plus-circle fa-fw"></i>Customers</a></li>
+                  <li><a href="/suppliers">&nbsp;Suppliers</a></li>
+                  <li><a href="/customers">Customers</a></li>
                 </ul>
               </li>
             </ul>
@@ -60,7 +60,9 @@
                   <li>
                     <a href="<%= edit_user_registration_path %>"><i class="fa fa-pencil-square-o fa-fw"></i>Edit Profile</a>
                   </li>
-                  <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %><i class="fa fa-sign-out fa-fw"></i>Logout</li>
+                  <li>
+                    <a href="<%= destroy_user_session_path %>" data-method="delete"><i class="fa fa-plus-circle"></i>Logout</a>
+                    </li>
                 </ul>
               </li>
             </ul>

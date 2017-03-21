@@ -1,0 +1,75 @@
+<div>
+  <div class="row">
+    <a href="/company_profiles/8/edit" title="Click to change current fiscal year" data-toggle="tooltip">
+      <div class="col-sm-3 pull-right">
+        <% @company_profile.each_with_index do |c|  %>
+            <h4>Current Fiscal Year : <%= c.fiscal_year.name %></h4>
+        <% end %>
+      </div></a>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="row">
+        <div class="col-md-6 pull-right">
+          <a class="btn btn-primary pull-right" href="<%= new_sale_path %>"><span><i class="fa fa-plus fa-fw">&nbsp;</i></span>
+            Add New</a>
+        </div>
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <table class="table table-hover table-responsive">
+            <thead>
+            <tr class="bg-primary">
+              <th>S.N.</th>
+              <th>Bill Number</th>
+              <th>Supplier</th>
+              <th>Total Cost</th>
+              <th>Net Discount</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+
+            <% @sale.each_with_index do |sale, i| %>
+                <tbody>
+                <tr>
+                  <td><%= (@page.to_i - 1) * @perpage+ i+1 %></td>
+                  <td><%= sale.bill_number %></a></td>
+                  <td>
+                    <%= sale.customer.name %>
+                  </td>
+                  <td>
+                    <%= sale.total %>
+                  </td>
+                  <td>
+                    <%= sale.discount %>
+                  </td>
+                  <td>
+                    <%= sale.date %>
+                  </td>
+                  <td><a title="View details" href="<%= sale_item_path(sale) %>" data-toggle="tooltip" data-placement="right" class="a"><i class="fa fa-eye"  aria-hidden="true"></i></a>
+                </tr>
+                </tbody>
+
+            <% end %>
+
+          </table>
+
+        </div>
+      </div>
+
+      <%= will_paginate @sale, renderer: BootstrapPagination::Rails %>
+
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

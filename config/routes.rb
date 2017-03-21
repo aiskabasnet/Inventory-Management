@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
  # devise_for :users, :skip => [:registrations]
  # as :user do
   #  get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
@@ -26,6 +25,7 @@ Rails.application.routes.draw do
   resources :stocks
   resources :units
   resources :sales
+  resources :sale_items
   resources :suppliers
   resources :items
   resources :purchases
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :item_groups
 resources :fiscal_years
   resources :company_profiles
+  get '/setting' => 'homes#setting'
   get "/add_fields" => "sales#add_fields"
  # resources :users_admin, :controller => 'users'
   get "/users/sign_up", to: redirect('/404')

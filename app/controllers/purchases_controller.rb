@@ -2,6 +2,7 @@ class PurchasesController < ApplicationController
   def new
     @purchase = Purchase.new
     @purchase_item = @purchase.purchase_items.build
+    @company_profile = CompanyProfile.find(8);
     @item = Item.order(:name)
     @date = Purchase.limit(1).reverse
   end
@@ -43,6 +44,10 @@ class PurchasesController < ApplicationController
       @item = Item.order(:name)
       render 'new'
     end
+  end
+
+  def show
+    @purchase_item = PurchaseItem.find(params[:id])
   end
 
   def index
